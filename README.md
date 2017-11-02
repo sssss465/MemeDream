@@ -1,5 +1,5 @@
 # Meme dream
-
+![doggo](documentation/doggo.png)
 ## Overview
 
 Ever wanted to catch with friends and find more relevant memes they have posted? Trying to find Rock and Morty gifs for your facebook or slack chat?
