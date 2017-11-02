@@ -1,40 +1,41 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(___TODO__: your project name_)
-
-# Shoppy Shoperson 
+# Meme dream
 
 ## Overview
 
-(___TODO__: a brief one or two paragraph, high-level description of your project_)
+Ever wanted to catch with friends and find more relevant memes they have posted? Trying to find Rock and Morty gifs for your facebook or slack chat?
 
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
+Meme dream is a infinite-scrolling visualization / tumblr-influenced site where users can search for tags, view other popular tags and (possibly) vote on images. Each user will have unique feeds.
 
 
 ## Data Model
 
-(___TODO__: a description of your application's data and their relationships to each other_) 
-
-The application will store Users, Lists and Items
+The application will store Users, Votes and Tags
 
 * users can have multiple lists (via references)
 * each list can have multiple items (by embedding)
-
-(___TODO__: sample documents_)
 
 An Example User:
 
 ```javascript
 {
-  username: "shannonshopper",
-  hash: // a password hash,
-  lists: // an array of references to List documents
+  username: "andrew",
+  password: //hash;
+  votes: [] // array of voted on items;
+  tags: [] // list of tags that the user has liked
 }
 ```
 
-An Example List with Embedded Items:
+An example image
+```javascript
+{
+  name: "Mona Lisa",
+  path: '/img/lisa.jpg' // store path;
+  votes: 25, // array of voted on items;
+  tags: ['art', 'renaissance', 'Da Vinci'] // list of tags that the user has liked
+}
+```
+---
+An Example Image with Embedded Item:
 
 ```javascript
 {
@@ -49,9 +50,8 @@ An Example List with Embedded Items:
 ```
 
 
-## [Link to Commented First Draft Schema](db.js) 
+## [Link to Commented First Draft Schema](db.js)
 
-(___TODO__: create a first draft of your Schemas in db.js and link to it_)
 
 ## Wireframes
 
@@ -104,13 +104,10 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit_)
 
 
-## [Link to Initial Main Project File](app.js) 
+## [Link to Initial Main Project File](app.js)
 
-(___TODO__: create a skeleton Express application with a package.json, app.js, views folder, etc. ... and link to your initial app.js_)
 
 ## Annotations / References Used
-
-(___TODO__: list any tutorials/references/etc. that you've based your code off of_)
 
 1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
 2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
