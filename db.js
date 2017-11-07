@@ -13,11 +13,15 @@ const User = new Schema({
 
 const Picture = new Schema({
     name: String,
+    author: {type: String, default: 'Anonymous'},
     path: String, // store path;
-    votes: Number, // array of voted on items;
+    votes: {type: Number, default: 0}, // array of voted on items;
     tags: [String], // list of tags that the user has liked
     voted: [User] // List of users that voted on this image.
 });
+
+User.plugin(URLSlugs('username'));
+Picture.plugin(URLSlugs('name'));
 
 mongoose.model('User', User);
 mongoose.model('Picture', Picture);

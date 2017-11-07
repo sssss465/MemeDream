@@ -1,8 +1,85 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: #EEF2FF top center repeat-x;
+    text-align: center;
+    margin: auto;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
 }
+input[type=submit] {
+    margin-left: auto;
+    margin-right: auto;
+   color: white;
+   background-color: #6fbd92;
+   border-radius: 10px;
+   border: none;
+   box-shadow: none;
+   font-family: inherit;
+   font-size: 18px;
+   display: block;
+   text-shadow:none;
+   padding-top: 2em;
+   padding-bottom: 2em;
+   transition: background-color 1s;
+}
+@keyframes warp {
+	0%, 20%, 60%, 100% {
+        border-radius: 10px;
+	}
 
-a {
-  color: #00B7FF;
+	40% {
+        border-radius: 50px;
+	}
+
+	80% {
+        border-radius: 30px;
+	}
+}
+input[type=submit]:hover {
+    background-color: #7bc13d;
+    animation: warp;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    /*border-radius: 15px;*/
+}
+h1 a{
+    color: #AF0A0F;
+    text-decoration: none;
+}
+h1 a:hover {
+    background-color: yellow;
+}
+h1 a:visited {
+    color: #AF0A0F;
+    text-decoration: none;
+}
+a a:visited {
+    color: #34345C;
+}
+h2 a{
+    text-decoration: none;
+}
+h2 a:hover {
+    background-color: yellow;
+}
+h2 a:visited {
+    /*color: #34345C;*/
+}
+h2 {
+    color: #0F0C5D;
+}
+h3 {
+    color: #789922;
+}
+input{
+    margin: 1em;
+    padding: 0.7em;
+}
+img {
+    max-width: 250px;
+    max-height: 250px;
+}
+.posts {
+    text-align: left;
+    margin-left: 15%;
+    margin-bottom: 5%;
 }
