@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const passport = require('passport');
 
 const app = express();
 const multer = require('multer');
@@ -42,6 +43,14 @@ app.use('/users', users);
 app.get('/upload', (req, res) => {
     res.render('upload');
 });
+
+app.post('/login', // passport code, did some research on strategies (oauth too)
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    res.redirect('/users/' + req.user.username);
+  });
 app.post('/upload', upload.single('pic'), (req, res) => {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
