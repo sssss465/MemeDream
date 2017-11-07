@@ -51,7 +51,7 @@ app.post('/upload', upload.single('pic'), (req, res) => {
         // todo
         name: req.file.filename
     });
-    res.redirect('/' + req.file.filename);
+    res.redirect('/' + req.file.filename); // add tags to upload.hbs
 
 });
 // catch 404 and forward to error handler
