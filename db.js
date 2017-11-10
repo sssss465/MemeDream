@@ -20,13 +20,13 @@ const Picture = new Schema({
     voted: [User] // List of users that voted on this image.
 });
 
-User.plugin(URLSlugs('username'));
-Picture.plugin(URLSlugs('name'));
+//User.plugin(URLSlugs('username'));
+// Picture.plugin(URLSlugs('name'));
 
 mongoose.model('User', User);
 mongoose.model('Picture', Picture);
 
-// is the environment variable, NODE_ENV, set to PRODUCTION? 
+// is the environment variable, NODE_ENV, set to PRODUCTION?
 if (process.env.NODE_ENV === 'PRODUCTION') {
 // if we're in PRODUCTION mode, then read the configration from a file
 // use blocking file io to do this...

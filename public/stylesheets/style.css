@@ -75,8 +75,8 @@ input{
     padding: 0.7em;
 }
 img {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 50%;
+    max-height: 50%;
 }
 .posts {
     text-align: left;

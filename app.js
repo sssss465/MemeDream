@@ -45,12 +45,12 @@ app.get('/upload', (req, res) => {
 });
 
 app.post('/login', // passport code, did some research on strategies (oauth too)
-  passport.authenticate('local'),
-  function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.redirect('/users/' + req.user.username);
-  });
+    passport.authenticate('local'),
+    function(req, res) {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
+        res.redirect('/users/' + req.user.username);
+});
 app.post('/upload', upload.single('pic'), (req, res) => {
     // req.file is the `avatar` file
     // req.body will hold the text fields, if there were any
@@ -58,10 +58,29 @@ app.post('/upload', upload.single('pic'), (req, res) => {
     console.log(req.body);
     const pic = new Picture({
         // todo
-        name: req.file.filename
+        name: req.file.filename,
+        tags: req.body.tags.split(' ')
     });
-    res.redirect('/' + req.file.filename); // add tags to upload.hbs
+    pic.save((err, saved) => {
+        if (err){
+            throw err;
+        }
+        console.log(saved);
+    });
+    res.redirect('/img/' + req.file.filename); // add tags to upload.hbs
 
+});
+app.get('/img/:filename', (req, res) => {
+    Picture.findOne({name: req.params.filename}, (err, pic) => {
+        if (err) {
+            throw err;
+        } else if (Object.keys(pic).length === 0){
+            res.status(404);
+            res.render('picture', {'err': true});
+        } else {
+            res.render('picture', {'pic': pic});
+        }
+    });
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
