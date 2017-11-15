@@ -6,6 +6,9 @@ Ever wanted to catch with friends and find more relevant memes they have posted?
 
 Meme dream is a infinite-scrolling visualization / tumblr-influenced site where users can search for tags, view other popular tags and (possibly) vote on images. Each user will have unique feeds.
 
+## Usage:
+
+`mkdir uploads && npm run dev`
 
 ## Data Model
 
