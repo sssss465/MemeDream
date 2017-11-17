@@ -7,6 +7,7 @@
     "dev": "export PORT=14306; export NODE_ENV=PRODUCTION; ~/usr/local/lib/node_modules/.bin/forever -o ~/var/log/app.log -e ~/var/log/app_error.log start bin/www"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
@@ -18,6 +19,7 @@
     "morgan": "~1.8.1",
     "multer": "^1.3.0",
     "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.4.2"
   }
 }

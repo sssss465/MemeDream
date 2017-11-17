@@ -51,6 +51,19 @@ An Example Image with Embedded Item:
   createdAt: // timestamp
 }
 ```
+## Goals:
+
+- [ ] Instead of just using express to render pages, use express as an API
+endpoint and then use Vue JS to render and display the appropriate content
+
+- [x] Use passport js for authentication
+- [ ] Figure out how to do this on one port?? (we're allowed to only use one port on linserv... or host either the client on the server on heroku)
+
+## Extras:
+
+I will add these subgoals if I have time
+
+- [ ] use vuemedium editor to add wysiwyg editor functionality for the profile pages.
 
 
 ## [Link to Commented First Draft Schema](db.js)
@@ -110,6 +123,8 @@ An Example Image with Embedded Item:
     * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
 * (5 points) vue.js (maybe)
     * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points, may also use angular as it's good for SPA
+    * Milestone 3 - did more research on vue, added `client` folder to the base repo, created
+    using the vue-cli app... includes webpack and other frameworks built in.
 * (3 points) webpack - may use webpack to babilify -> minify -> uglify or for sass
 * (1-3 Points) - May use Imgur API, reddit API, google images API,
 

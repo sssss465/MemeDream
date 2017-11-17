@@ -68,7 +68,6 @@ app.post('/upload', upload.single('pic'), (req, res) => {
         console.log(saved);
     });
     res.redirect('/img/' + req.file.filename); // add tags to upload.hbs
-
 });
 app.get('/img/:filename', (req, res) => {
     Picture.findOne({name: req.params.filename}, (err, pic) => {
