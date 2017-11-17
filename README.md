@@ -125,6 +125,8 @@ I will add these subgoals if I have time
     * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points, may also use angular as it's good for SPA
     * Milestone 3 - did more research on vue, added `client` folder to the base repo, created
     using the vue-cli app... includes webpack and other frameworks built in.
+    * Found an interesting article https://cherubini.casa/vue-js-and-express-can-they-live-together-c17d48bc41b7
+    possible alternative to using webpack so i can inject variables directly into the Vue views
 * (3 points) webpack - may use webpack to babilify -> minify -> uglify or for sass
 * (1-3 Points) - May use Imgur API, reddit API, google images API,
 
