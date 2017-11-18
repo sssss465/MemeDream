@@ -41,6 +41,9 @@ input[type=submit]:hover {
     animation-timing-function: ease-in-out;
     /*border-radius: 15px;*/
 }
+h1 {
+    padding: 10px;
+}
 h1 a{
     color: #AF0A0F;
     text-decoration: none;
@@ -73,10 +76,23 @@ h3 {
 input{
     margin: 1em;
     padding: 0.7em;
+    display: inline-block;
+}
+.form-control {
+    width: 50%;
+    display: inline-block;
+}
+.form-control-file{
+    width: 50%;
+    display: inline-block;
+}
+input[type=file]{
+    display: inline-block;
 }
 img {
     max-width: 50%;
     max-height: 50%;
+    padding-bottom: 10%;
 }
 .posts {
     text-align: left;

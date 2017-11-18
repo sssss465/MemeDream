@@ -4,6 +4,6 @@
 {{else}}
     <h2>{{pic.name}}</h2>
     <h2>Author: {{pic.author}}</h2>
-    <h2>Tags: {{#each pic.tags}}{{this}}, {{/each}}</h2>
+    <h2>Tags: {{#each pic.tags}}{{this}}{{#unless @last}},{{/unless}} {{/each}}</h2>
     <img src="/{{pic.name}}" alt="picture">
 {{/if}}

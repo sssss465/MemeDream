@@ -58,9 +58,11 @@ app.post('/upload', upload.single('pic'), (req, res) => {
     console.log(req.body);
     const pic = new Picture({
         // todo
+        author: req.body.author || 'Anonymous',
         name: req.file.filename,
         tags: req.body.tags.split(' ')
     });
+
     pic.save((err, saved) => {
         if (err){
             throw err;
