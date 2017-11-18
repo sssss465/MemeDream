@@ -6,10 +6,10 @@
     <h2>Author: {{pic.author}}</h2>
     <h2>Tags: {{#each pic.tags}}{{this}}{{#unless @last}},{{/unless}} {{/each}}</h2>
     <button id="showform" type="button" class="btn btn-warning" name="">Edit Tags!</button>
-    <form id="edittags" class="form-horizontal" action="" method="post" style="display: none">
-        <input type="text" name="tags" value="{{#each pic.tags}}{{this}} {{/each}}"placeholder="Add tags!">
-        <input type="button" class="btn btn-success" name="" value="Submit Tags">
+    <form id="edittags" class="form-horizontal hidden" action="" method="post">
+        <input type="text" class="hidden" name="tags" value="{{#each pic.tags}}{{this}} {{/each}}"placeholder="Add tags!">
+        <button type="submit" class="hidden btn btn-success" name=""> Submit tags!</button>
     </form>
     <img src="/{{pic.name}}" alt="picture">
-    <script type="text/javascript" href="/javascripts/picture.js"></script>
+    <script type="text/javascript" src="/javascripts/picture.js"></script>
 {{/if}}

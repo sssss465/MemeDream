@@ -103,3 +103,12 @@ img {
     margin-left: 15%;
     margin-bottom: 5%;
 }
+#edittags {
+    -webkit-transition: opacity 600ms, visibility 600ms;
+    transition: opacity 600ms, visibility 600ms linear;
+    display: block;
+}
+.hidden {
+    display: none;
+    opacity: 0;
+}

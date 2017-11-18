@@ -5,7 +5,11 @@ function main(){
     console.log(f);
     b.addEventListener('click', function(event) {
         event.preventDefault();
-        f.style.display = 'block';
+        f.classList.remove('hidden');
+        const arr = Array.from(f.children);
+        arr.forEach((child) => {
+            child.classList.remove('hidden');
+        });
         b.style.display = 'none';
         console.log('hi');
     });

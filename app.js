@@ -83,8 +83,21 @@ app.get('/img/:filename', (req, res) => {
         }
     });
 });
-app.post('/img/:filename', (req, res) =>{
-    
+app.post('/img/:filename', (req, res) => { // edit tags / other attributes?
+    Picture.findOne({name: req.params.filename}, (err, pic) => {
+        if (err){
+            throw err;
+        } else if (Object.keys(pic).length === 0){
+            res.status(404);
+            res.render('picture', {'err': true});
+        } else {
+            pic.tags = req.body.tags.split(' ');
+            pic.save(function(err, savepic){
+                console.log(savepic);
+                res.redirect('/img/' + req.params.filename);
+            });
+        }
+    });
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
