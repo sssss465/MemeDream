@@ -30,18 +30,23 @@ export default {
       password: ''
     }
   },
-  watch: {
-    // username (value) {
-    //   console.log(value);
-    // }
-  },
+  // watch: {
+  //   username (value) {
+  //     console.log(value);
+  //   }
+  // },
   methods: {
     async register () {
-      const res = await Auth.register({
+      try {
+      const response = await Auth.register({
         username: this.username,
         password: this.password
       })
-      console.log(res);
+      console.log(response.data);
+      this.$store.dispatch('setUser', response.data.username)
+       } catch (error) {
+       this.error = error.response.data.error
+     }
     }
   }
 }

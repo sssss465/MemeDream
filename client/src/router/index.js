@@ -34,12 +34,12 @@ export default new Router({
   {
     path: '/img/:filename',
     name: 'Picture',
-    component: Register
+    component: Picture
   },
   {
     path: '/users/:username',
-    name: 'Register',
-    component: Register
+    name: 'User',
+    component: User
   }
   ]
 })

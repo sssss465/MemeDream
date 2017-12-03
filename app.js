@@ -99,9 +99,11 @@ app.post('/register', (req, res) => {
 app.get('/users/:username', (req, res)=> {
     User.findOne({username: req.params.username}, (err, user) => {
         if(err) {
-            res.render('user', {error: true});
+            // res.render('user', {error: true});
+            res.send({user: user});
         } else {
-            res.render('user', {user: user});
+            // res.render('user', {user: user});
+            res.send({user: user});
         }
     });
 });
@@ -113,7 +115,8 @@ app.post('/login', // passport code, did some research on strategies (oauth too)
     function(req, res) {
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
-        res.redirect('/users/' + req.user.username);
+        // res.redirect('/users/' + req.user.username);
+        res.send(req.user);
 });
 app.get('/logout', function(req, res) {
     req.logout();
@@ -185,5 +188,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000);
 module.exports = app;
