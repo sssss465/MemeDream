@@ -55,6 +55,7 @@ passport.use(new LocalStrategy(
     });
   }
 ));
+
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
@@ -62,20 +63,53 @@ passport.use(new LocalStrategy(
 // typical implementation of this is as simple as supplying the user ID when
 // serializing, and querying the user record by ID from the database when
 // deserializing.
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
-});
+// use static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
 
-passport.deserializeUser(function(id, cb) {
-  users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
-});
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use('/', index);
 app.use('/users', users);
 app.get('/upload', (req, res) => {
     res.render('upload');
+});
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+app.post('/register', (req, res) => {
+    User.register(new User({username: req.body.username}), req.body.password, (err, account) =>{
+        if (err) {
+           return res.render('register', { account : account });
+       }
+       passport.authenticate('local')(req, res, function () {
+         res.redirect('/users/' + account.username);
+       });
+    });
+    // const user = new User({
+    //     username: req.body.username,
+    //     password: req.body.password
+    // });
+    // user.save((err, user) => {
+    //     if (err) {
+    //         throw err;
+    //     } else {
+    //         res.redirect('/users/' + user.username);
+    //     }
+    // });
+});
+app.get('/users/:username', (req, res)=> {
+    User.findOne({username: req.params.username}, (err, user) => {
+        if(err) {
+            res.render('user', {error: true});
+        } else {
+            res.render('user', {user: user});
+        }
+    });
+});
+app.get('/login', (req, res) => {
+    res.render('register', {act: '/login'});
 });
 app.post('/login', // passport code, did some research on strategies (oauth too)
     passport.authenticate('local'),
@@ -83,6 +117,10 @@ app.post('/login', // passport code, did some research on strategies (oauth too)
         // If this function gets called, authentication was successful.
         // `req.user` contains the authenticated user.
         res.redirect('/users/' + req.user.username);
+});
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 app.post('/upload', upload.single('pic'), (req, res) => {
     // req.file is the `avatar` file
