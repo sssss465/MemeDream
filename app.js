@@ -37,6 +37,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'dist'))); // webpack testing
@@ -44,7 +45,6 @@ app.use(express.static(path.join(__dirname, 'dist'))); // webpack testing
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors());
 
 
 passport.use(new LocalStrategy(
@@ -81,25 +81,20 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 app.post('/register', (req, res) => {
+  console.log(req.body);
     User.register(new User({username: req.body.username}), req.body.password, (err, account) =>{
         if (err) {
-           return res.render('register', { err : account });
+           // return res.render('register', { err : account });
+           console.log(account);
+           res.send({err: account});
+       } else {
+         passport.authenticate('local')(req, res, function () {
+           // res.redirect('/users/' + account.username);
+           console.log('success!');
+           res.send({success: account.username});
+         });
        }
-       passport.authenticate('local')(req, res, function () {
-         res.redirect('/users/' + account.username);
-       });
     });
-    // const user = new User({
-    //     username: req.body.username,
-    //     password: req.body.password
-    // });
-    // user.save((err, user) => {
-    //     if (err) {
-    //         throw err;
-    //     } else {
-    //         res.redirect('/users/' + user.username);
-    //     }
-    // });
 });
 app.get('/users/:username', (req, res)=> {
     User.findOne({username: req.params.username}, (err, user) => {
@@ -190,4 +185,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.listen(3000);
 module.exports = app;

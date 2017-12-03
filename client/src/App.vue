@@ -1,23 +1,142 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
+  <div class="container" id="app">
+    <!-- <img src="./assets/logo.png"> -->
+     <h1><router-link to="/">Meme Dream</router-link></h1>
     <router-view/>
   </div>
 </template>
 
 <script>
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min.js';
 export default {
   name: 'app'
 }
 </script>
 
 <style>
-#app {
+/*#app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}*/
+
+body {
+    background: #EEF2FF top center repeat-x;
+    text-align: center;
+    margin: auto;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
 }
+input[type=submit] {
+    margin-left: auto;
+    margin-right: auto;
+   color: white;
+   background-color: #6fbd92;
+   border-radius: 10px;
+   border: none;
+   box-shadow: none;
+   font-family: inherit;
+   font-size: 18px;
+   display: block;
+   text-shadow:none;
+   padding-top: 2em;
+   padding-bottom: 2em;
+   transition: background-color 1s;
+}
+@keyframes warp {
+	0%, 20%, 60%, 100% {
+        border-radius: 10px;
+	}
+
+	40% {
+        border-radius: 50px;
+	}
+
+	80% {
+        border-radius: 30px;
+	}
+}
+input[type=submit]:hover {
+    background-color: #7bc13d;
+    animation: warp;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    /*border-radius: 15px;*/
+}
+h1 {
+    padding: 10px;
+}
+h1 a{
+    color: #AF0A0F;
+    text-decoration: none;
+}
+h1 a:hover {
+    background-color: yellow;
+}
+h1 a:visited {
+    color: #AF0A0F;
+    text-decoration: none;
+}
+a a:visited {
+    color: #34345C;
+}
+h2 a{
+    text-decoration: none;
+}
+h2 a:hover {
+    background-color: yellow;
+}
+h2 a:visited {
+    /*color: #34345C;*/
+}
+h2 {
+    color: #0F0C5D;
+}
+h3 {
+    color: #789922;
+}
+input{
+    margin: 1em;
+    padding: 0.7em;
+    display: inline-block;
+}
+.form-control {
+    width: 50%;
+    display: inline-block;
+}
+.form-control-file{
+    width: 50%;
+    display: inline-block;
+}
+input[type=file]{
+    display: inline-block;
+}
+img {
+    max-width: 50%;
+    max-height: 50%;
+    padding-bottom: 10%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+}
+.posts {
+    text-align: left;
+    margin-left: 15%;
+    margin-bottom: 5%;
+}
+#edittags {
+    -webkit-transition: opacity 600ms, visibility 600ms;
+    transition: opacity 600ms, visibility 600ms linear;
+    display: block;
+}
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
 </style>

@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-  <h1> Register </h1>
+  <h1> Login </h1>
   <form class="col s12" method="POST" action="{act}">
     <div class="row">
       <div class="input-field col s12">
