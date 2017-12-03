@@ -2,13 +2,13 @@
     <form class="col s12" method="POST" action="{{act}}">
       <div class="row">
          <div class="input-field col s12">
-          <input id="Username" type="text" name="username" class="validate">
+          <input id="Username" type="text" name="username" class="validate" required>
           <label for="Username">Username</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="password" type="password" name="password" class="validate">
+          <input id="password" type="password" name="password" data-error="Check your password" class="validate">
           <label for="password">Password</label>
         </div>
       </div>

@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'dist'))); // webpack testing
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(cors());
 
 
 passport.use(new LocalStrategy(
@@ -81,7 +83,7 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, account) =>{
         if (err) {
-           return res.render('register', { account : account });
+           return res.render('register', { err : account });
        }
        passport.authenticate('local')(req, res, function () {
          res.redirect('/users/' + account.username);
