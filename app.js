@@ -10,6 +10,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const crypto = require('crypto');
 
 const app = express();
 const multer = require('multer');
@@ -36,44 +37,33 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(cors()); // vue js
 app.use(cookieParser());
-app.use(cors());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'dist'))); // webpack testing
 
-app.use(passport.initialize());
-app.use(passport.session());
 
-
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-// use static authenticate method of model in LocalStrategy
 passport.use(new LocalStrategy(User.authenticate()));
-
-// use static serialize and deserialize of model for passport session support
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+const api = require('./routes/api');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', index);
 app.use('/users', users);
+app.use('/api', api);
 app.get('/upload', (req, res) => {
     res.render('upload');
 });
@@ -84,14 +74,14 @@ app.post('/register', (req, res) => {
   console.log(req.body);
     User.register(new User({username: req.body.username}), req.body.password, (err, account) =>{
         if (err) {
-           // return res.render('register', { err : account });
+           return res.render('register', { err : account });
            console.log(account);
-           res.send({err: account});
+           // res.send({err: account});
        } else {
          passport.authenticate('local')(req, res, function () {
-           // res.redirect('/users/' + account.username);
+           res.redirect('/users/' + account.username);
            console.log('success!');
-           res.send({success: account.username});
+           // res.send({success: account.username});
          });
        }
     });
@@ -99,25 +89,27 @@ app.post('/register', (req, res) => {
 app.get('/users/:username', (req, res)=> {
     User.findOne({username: req.params.username}, (err, user) => {
         if(err) {
-            // res.render('user', {error: true});
-            res.send({user: user});
+            res.render('user', {error: true});
+            // res.send({user: user});
         } else {
-            // res.render('user', {user: user});
-            res.send({user: user});
+          console.log(req.user);
+            if (req.user){
+              const sha256 = crypto.createHash('sha256').update('Apple').digest("hex");
+              res.cookie('login' , sha256);
+            }
+            res.render('user', {prof: user, user: req.user});
+            // res.send({user: user});
         }
     });
 });
 app.get('/login', (req, res) => {
     res.render('register', {act: '/login'});
 });
-app.post('/login', // passport code, did some research on strategies (oauth too)
-    passport.authenticate('local'),
-    function(req, res) {
-        // If this function gets called, authentication was successful.
-        // `req.user` contains the authenticated user.
-        // res.redirect('/users/' + req.user.username);
-        res.send(req.user);
-});
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/users/' + req.user.username);
+  });
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -145,9 +137,6 @@ app.post('/upload', upload.single('pic'), (req, res) => {
 app.get('/img/:filename', (req, res) => {
     Picture.findOne({name: req.params.filename}, (err, pic) => {
         if (err) {
-            throw err;
-        } else if (Object.keys(pic).length === 0){
-            res.status(404);
             res.render('picture', {'err': true});
         } else {
             res.render('picture', {'pic': pic});

@@ -1,6 +1,7 @@
 {{#if error}}
-    <h2> Sorry, the following user has not been found <h2>
+    <h2> Sorry, the following user has not been found </h2>
 {{/if}}
-{{#if user}}
-    <h2>Welcome to the site!, {{user.username}}</h2>
+{{#if prof.username}}
+    <h2> Welcome  to {{prof.username}}'s profile </h2>
+    {{prof.username}} has {{prof.tags.length}} tags and {{prof.votes.length}} votes.
 {{/if}}
