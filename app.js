@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const passport = require('passport');
+const LocalStrategy = require('passport-local');
 
 const app = express();
 const multer = require('multer');
@@ -37,13 +38,45 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'dist'))); // webpack testing
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+));
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
 app.use('/', index);
 app.use('/users', users);
 app.get('/upload', (req, res) => {
     res.render('upload');
 });
-
 app.post('/login', // passport code, did some research on strategies (oauth too)
     passport.authenticate('local'),
     function(req, res) {
@@ -68,8 +101,8 @@ app.post('/upload', upload.single('pic'), (req, res) => {
             throw err;
         }
         console.log(saved);
+        res.redirect('/img/' + req.file.filename); // add tags to upload.hbs
     });
-    res.redirect('/img/' + req.file.filename); // add tags to upload.hbs
 });
 app.get('/img/:filename', (req, res) => {
     Picture.findOne({name: req.params.filename}, (err, pic) => {
