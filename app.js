@@ -61,11 +61,19 @@ const api = require('./routes/api');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', index);
+app.get('/', (req, res) => {
+  Picture.find({}, (err, pics) => {
+    if (err){
+      throw err;
+    } else {
+      res.render('index', {user: req.user, pics: pics}); // get all images.. may be slow
+    }
+  });
+});
 app.use('/users', users);
 app.use('/api', api);
 app.get('/upload', (req, res) => {
-    res.render('upload');
+    res.render('upload', {user: req.user});
 });
 app.get('/register', (req, res) => {
     res.render('register');
@@ -139,7 +147,7 @@ app.get('/img/:filename', (req, res) => {
         if (err) {
             res.render('picture', {'err': true});
         } else {
-            res.render('picture', {'pic': pic});
+            res.render('picture', {'pic': pic, user: req.user});
         }
     });
 });

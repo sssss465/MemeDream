@@ -21,7 +21,7 @@ const Picture = new Schema({
     voted: [User] // List of users that voted on this image.
 });
 
-User.plugin(URLSlugs('username'));
+// User.plugin(URLSlugs('username'));
 // Picture.plugin(URLSlugs('name'));
 User.plugin(passportLocalMongoose);
 

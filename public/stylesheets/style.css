@@ -5,6 +5,8 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
 }
+.carousel .carousel-item {
+width:300px !important;}
 input[type=submit] {
     margin-left: auto;
     margin-right: auto;
