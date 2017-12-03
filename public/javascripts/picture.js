@@ -1,5 +1,3 @@
-import 'materialize-css/dist/materialize.css';
-import 'materialize-css/dist/materialize.js';
 
 function main(){
     const b = document.querySelector('#showform');
