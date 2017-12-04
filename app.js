@@ -188,7 +188,7 @@ app.post('/img/:filename', (req, res) => { // edit tags / other attributes?
     }, (err, pic) => {
         if (err) {
             throw err;
-        } else if (Object.keys(pic).length === 0) {
+        } else if (pic === undefined) {
             res.status(404);
             res.render('picture', {
                 'err': true
