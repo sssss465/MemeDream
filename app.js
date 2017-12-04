@@ -206,6 +206,7 @@ app.post('/img/:filename/upvote', (req, res) => { // edit tags / other attribute
     Picture.findOne({
         name: req.params.filename
     }, (err, pic) => {
+      console.log('pic found on the upvote route!')
         if (err) {
             throw err;
         } else if (pic === undefined) {
