@@ -10,6 +10,6 @@
         <input type="text" class="hidden" name="tags" value="{{#each pic.tags}}{{this}} {{/each}}"placeholder="Add tags!">
         <button type="submit" class="hidden btn btn-success" name=""> Submit tags!</button>
     </form>
-    <img src="/{{pic.name}}" alt="picture">
+    <img class="materialboxed" width="650" data-caption="Tags: {{#each pic.tags}}{{this}}{{#unless @last}},{{/unless}} {{/each}}" src="/{{pic.name}}" alt="picture">
     <script type="text/javascript" src="/javascripts/picture.js"></script>
 {{/if}}

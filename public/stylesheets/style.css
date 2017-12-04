@@ -6,7 +6,7 @@ body {
     font-size: 18px;
 }
 .carousel .carousel-item {
-width:300px !important;}
+width:400px !important;}
 input[type=submit] {
     margin-left: auto;
     margin-right: auto;
@@ -92,8 +92,8 @@ input[type=file]{
     display: inline-block;
 }
 img {
-    max-width: 50%;
-    max-height: 50%;
+    max-width: 75%;
+    height: auto;
     padding-bottom: 10%;
     display: block;
     margin-left: auto;

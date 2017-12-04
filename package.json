@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run build && nodemon ./bin/www",
     "build": "webpack --display-error-details --config webpack.config.js",
-    "dev": "export PORT=14306; export NODE_ENV=PRODUCTION; ~/usr/local/lib/node_modules/.bin/forever -o ~/var/log/app.log -e ~/var/log/app_error.log start bin/www"
+    "dev": "npm run build && export PORT=14306; export NODE_ENV=PRODUCTION; ~/usr/local/lib/node_modules/.bin/forever -o ~/var/log/app.log -e ~/var/log/app_error.log start bin/www"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -36,6 +36,8 @@
   "devDependencies": {
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "^0.6.2"
   }
 }
