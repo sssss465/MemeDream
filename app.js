@@ -94,7 +94,7 @@ app.post('/register', (req, res) => {
     }), req.body.password, (err, account) => {
         if (err) {
             return res.render('register', {
-                err: account
+                err: err.message
             });
             console.log(account);
             // res.send({err: account});
