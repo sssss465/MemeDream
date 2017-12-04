@@ -8,3 +8,18 @@ console.log('hello from webpack');
 $(document).ready(function(){
      $('.carousel').carousel();
 });
+/////////////////// ajax for uploading pictures
+$('#upvote').click(function(){
+  axios.post(window.location.pathname + '/upvote', {
+      upvoted: true
+    })
+    .then(function (response) {
+      // {votes: number}
+      console.log(response);
+      Materialize.toast('Upvoted!', 4000)
+      $('#votes')[0].textContent = "Votes: " + response.votes;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});

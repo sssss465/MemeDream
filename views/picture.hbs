@@ -3,9 +3,11 @@
     <a href="/">Return home</a>
 {{else}}
     <h2>{{pic.name}}</h2>
-    <h2>Author: {{pic.author}}</h2>
-    <h2>Tags: {{#each pic.tags}}{{this}}{{#unless @last}},{{/unless}} {{/each}}</h2>
-    <button class="waves-effect waves-light btn red lighten-3"><i class="material-icons left">arrow_upward</i>Upvote</button>
+    <h4>Author: {{pic.author}}</h4>
+    <h4 id="votes">Votes: {{pic.votes}}</h4>
+    <h4>Tags: {{#each pic.tags}}{{this}}{{#unless @last}},{{/unless}} {{/each}}</h4>
+
+    <button id="upvote" class="waves-effect waves-light btn red lighten-3"><i class="material-icons left">arrow_upward</i>Upvote</button>
 
     <button id="showform" type="button" class="btn btn-warning" name="">Edit Tags!</button>
     <form id="edittags" class="form-horizontal hidden" action="" method="post">

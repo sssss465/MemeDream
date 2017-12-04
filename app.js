@@ -202,6 +202,24 @@ app.post('/img/:filename', (req, res) => { // edit tags / other attributes?
         }
     });
 });
+app.post('/img/:filename/upvote', (req, res) => { // edit tags / other attributes?
+    Picture.findOne({
+        name: req.params.filename
+    }, (err, pic) => {
+        if (err) {
+            throw err;
+        } else if (pic === undefined) {
+            res.status(404);
+            res.send({'err': true});
+        } else {
+            pic.votes += 1;
+            pic.save(function(err, savepic) {
+                console.log(savepic);
+                res.send({votes: savepic.votes});
+            });
+        }
+    });
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     const err = new Error('Not Found');
