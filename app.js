@@ -15,14 +15,16 @@ const crypto = require('crypto');
 const app = express();
 const multer = require('multer');
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Math.random().toString(36).substring(7) + path.extname(file.originalname)); // semi random filenames
-  }
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Math.random().toString(36).substring(7) + path.extname(file.originalname)); // semi random filenames
+    }
 });
-const upload = multer({ storage: storage}); // https://github.com/expressjs/multer
+const upload = multer({
+    storage: storage
+}); // https://github.com/expressjs/multer
 
 const mongoose = require('mongoose');
 require('./db.js');
@@ -36,7 +38,9 @@ app.set('view engine', 'hbs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 // app.use(cors()); // vue js
 app.use(cookieParser());
 app.use(require('express-session')({
@@ -62,62 +66,82 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-  Picture.find({}, (err, pics) => {
-    if (err){
-      throw err;
-    } else {
-      res.render('index', {user: req.user, pics: pics}); // get all images.. may be slow
-    }
-  });
+    Picture.find({}, (err, pics) => {
+        if (err) {
+            throw err;
+        } else {
+            res.render('index', {
+                user: req.user,
+                pics: pics
+            }); // get all images.. may be slow
+        }
+    });
 });
 app.use('/users', users);
 app.use('/api', api);
 app.get('/upload', (req, res) => {
-    res.render('upload', {user: req.user});
+    res.render('upload', {
+        user: req.user
+    });
 });
 app.get('/register', (req, res) => {
     res.render('register');
 });
 app.post('/register', (req, res) => {
-  console.log(req.body);
-    User.register(new User({username: req.body.username}), req.body.password, (err, account) =>{
+    console.log(req.body);
+    User.register(new User({
+        username: req.body.username
+    }), req.body.password, (err, account) => {
         if (err) {
-           return res.render('register', { err : account });
-           console.log(account);
-           // res.send({err: account});
-       } else {
-         passport.authenticate('local')(req, res, function () {
-           res.redirect('/users/' + account.username);
-           console.log('success!');
-           // res.send({success: account.username});
-         });
-       }
+            return res.render('register', {
+                err: account
+            });
+            console.log(account);
+            // res.send({err: account});
+        } else {
+            passport.authenticate('local')(req, res, function() {
+                res.redirect('/users/' + account.username);
+                console.log('success!');
+                // res.send({success: account.username});
+            });
+        }
     });
 });
-app.get('/users/:username', (req, res)=> {
-    User.findOne({username: req.params.username}, (err, user) => {
-        if(err) {
-            res.render('user', {error: true});
+app.get('/users/:username', (req, res) => {
+    User.findOne({
+        username: req.params.username
+    }, (err, user) => {
+        if (err) {
+            res.render('user', {
+                error: true
+            });
             // res.send({user: user});
         } else {
-          console.log(req.user);
-            if (req.user){
-              const sha256 = crypto.createHash('sha256').update('Apple').digest("hex");
-              res.cookie('login' , sha256);
+            console.log(req.user);
+            if (req.user) {
+                const sha256 = crypto.createHash('sha256').update('Apple').digest("hex");
+                res.cookie('login', sha256);
             }
-            res.render('user', {prof: user, user: req.user});
+            res.render('user', {
+                prof: user,
+                user: req.user
+            });
             // res.send({user: user});
         }
     });
 });
 app.get('/login', (req, res) => {
-    res.render('register', {act: '/login'});
+    res.render('register', {
+        act: '/login'
+    });
 });
 app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/users/' + req.user.username);
-  });
+    passport.authenticate('local', {
+        failureRedirect: '/login'
+    }),
+    function(req, res) {
+        res.redirect('/users/' + req.user.username);
+    });
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -135,7 +159,7 @@ app.post('/upload', upload.single('pic'), (req, res) => {
     });
 
     pic.save((err, saved) => {
-        if (err){
+        if (err) {
             throw err;
         }
         console.log(saved);
@@ -143,24 +167,35 @@ app.post('/upload', upload.single('pic'), (req, res) => {
     });
 });
 app.get('/img/:filename', (req, res) => {
-    Picture.findOne({name: req.params.filename}, (err, pic) => {
+    Picture.findOne({
+        name: req.params.filename
+    }, (err, pic) => {
         if (err) {
-            res.render('picture', {'err': true});
+            res.render('picture', {
+                'err': true
+            });
         } else {
-            res.render('picture', {'pic': pic, user: req.user});
+            res.render('picture', {
+                'pic': pic,
+                user: req.user
+            });
         }
     });
 });
 app.post('/img/:filename', (req, res) => { // edit tags / other attributes?
-    Picture.findOne({name: req.params.filename}, (err, pic) => {
-        if (err){
+    Picture.findOne({
+        name: req.params.filename
+    }, (err, pic) => {
+        if (err) {
             throw err;
-        } else if (Object.keys(pic).length === 0){
+        } else if (Object.keys(pic).length === 0) {
             res.status(404);
-            res.render('picture', {'err': true});
+            res.render('picture', {
+                'err': true
+            });
         } else {
             pic.tags = req.body.tags.split(' ');
-            pic.save(function(err, savepic){
+            pic.save(function(err, savepic) {
                 console.log(savepic);
                 res.redirect('/img/' + req.params.filename);
             });
@@ -169,20 +204,20 @@ app.post('/img/:filename', (req, res) => { // edit tags / other attributes?
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
